@@ -19,7 +19,7 @@ using namespace std;
 /***** Options *****/
 
 // The dice configuration to search for, e.g. "{12, 12, 12, 12}" means 4d12.
-constexpr array kSides = {12, 12, 12};
+constexpr array kSides = {12, 12, 12, 12};
 
 // Determines whether found solutions will be printed. If not, they are merely
 // counted.
