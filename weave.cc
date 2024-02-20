@@ -23,10 +23,10 @@ constexpr array kSides = {12, 12, 12, 12};
 
 // Determines whether found solutions will be printed. If not, they are merely
 // counted.
-constexpr bool kPrintSolutions = false;
+constexpr bool kPrintSolutions = true;
 
 // Enforce only searching for palindromic solutions.
-constexpr bool kEnforceMirror = false;
+constexpr bool kEnforceMirror = true;
 
 // Solution counts are reported after at least |kUpdatePerSolutions| solutions
 // have been found and at least |kSecondsPerUpdate| seconds have passed since
@@ -50,7 +50,7 @@ constexpr int kThreadDepth = 3;
 const int kJobLimit = 8 * kNumThreads;
 
 // Search from |kSearchFrom| to |kSearchTo| range of solutions at the
-// |kThreadDepth| depth. Index starts at 1, not 0. These can also be overrided
+// |kThreadDepth| depth. Index starts at 1, not 0. These can also be overridden
 // by the first two command-line arguments, respectively.
 int kSearchFrom = 1;
 int kSearchTo = -1; // -1 means unlimited
@@ -128,6 +128,8 @@ queue<ThreadData<kNumDice, kSides[kNumDice - 1], kTotalSides[kNumDice] + 1>> job
 bool keep_searching = true;
 thread_local ThreadData<kNumDice, kSides[kNumDice - 1], kTotalSides[kNumDice] + 1> td;
 thread_local vector<long> solutions(kNumDice + 1);
+thread_local int countsBeforeInt[kTotalSides[kNumDice] + 1][kNumAllPerms + 1];
+thread_local int countsAfterInt[kTotalSides[kNumDice] + 1][kNumAllPerms + 1];
 
 
 template <typename T> void print_vector(const vector<T>& v, bool newline = false) {
@@ -285,16 +287,13 @@ void depthN(int n) {
   const int insertPoints = slen + 1;
   const int halfPoints = insertPoints / 2 + 1;
 
-  int countsBeforeInt[insertPoints][kNumAllPerms + 1];
-  int countsAfterInt[insertPoints][kNumAllPerms + 1];
-
+  // Initialize |countsBeforeInt| and |countsAfterInt|.
   for (int i = 0; i != insertPoints; ++i) {
     for (int j = 0; j != kNumAllPerms + 1; ++j) {
       countsBeforeInt[i][j] = 0;
       countsAfterInt[i][j] = 0;
     }
   }
-
   countsBeforeInt[0][0] = 1;
   countsAfterInt[0][0] = 1;
 
