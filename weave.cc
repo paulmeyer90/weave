@@ -26,7 +26,7 @@ constexpr array kSides = {12, 12, 12, 12};
 constexpr bool kPrintSolutions = true;
 
 // Enforce only searching for palindromic solutions.
-constexpr bool kEnforceMirror = true;
+constexpr bool kEnforceMirror = false;
 
 // Solution counts are reported after at least |kUpdatePerSolutions| solutions
 // have been found and at least |kSecondsPerUpdate| seconds have passed since
